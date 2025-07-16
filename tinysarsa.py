@@ -8,6 +8,7 @@ reward=[1,5,2]
 poss0=[[0.1,0.4,0.5],[0.4,0.2,0.4],[0.3,0.7,0.0]]
 poss1=[[0.2,0.6,0.2],[0.5,0.25,0.25],[0.3,0.1,0.6]]
 random.seed(time.time())
+global_step=0
 state0 = random.randint(0, 2)
 t=random.random()
 if(t>epsilon):
@@ -33,6 +34,7 @@ def findstate(state,action0):
             state1=2
     return state1
 def iteration(state,action):
+    global global_step
     t=random.random()
     if(t>epsilon):
         action1=0 if vec[0][state]>vec[1][state] else 1
@@ -40,11 +42,12 @@ def iteration(state,action):
         action1=random.randint(0,1)
     state1=findstate(state,action)
     vec[action][state]+= alpha*(reward[state1] + gamma*vec[action1][state1]-vec[action][state])
+    global_step += 1
     return state1,action1
 def run(state,action,T):
     for _ in range(0,T):
         state,action=iteration(state,action)
-    print("episode=",T,",final state:",state0+1)
+    print("step=",global_step,",final state:",state0+1)
     print("        state1                  state2                  state3")
     print("action1", end=' ')
     for j in range(2):
