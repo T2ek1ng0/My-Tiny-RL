@@ -14,7 +14,7 @@ poss1=[[0.2,0.6,0.2],[0.5,0.25,0.25],[0.3,0.1,0.6]]
 random.seed(time.time())
 state0 = random.randint(0, 2)
 print("begin state:",state0+1)
-global_step = 0  # 全局步数计数器
+global_step=0
 def findstate(state,action0):
     t=random.random()
     if action0==0:
@@ -33,7 +33,7 @@ def findstate(state,action0):
             state1=2
     return state1
 def iteration(state):
-    global global_step  # 使用全局步数计数器
+    global global_step
     t=random.random()
     if(t>epsilon):
         action=0 if vec[0][state]>vec[1][state] else 1
@@ -46,12 +46,12 @@ def iteration(state):
         for j in range(3):
             writer.add_scalar(f'Q_Value/Action_{i+1}_State_{j+1}', vec[i][j], global_step)
     
-    global_step += 1  # 步数加1
+    global_step += 1
     return state1
 def run(state,T):
     for _ in range(0,T):
         state=iteration(state)
-    print("episode=",T,",final state:",state0+1)
+    print("step=",global_step,",final state:",state0+1)
     print("        state1                  state2                  state3")
     print("action1", end=' ')
     for j in range(2):
